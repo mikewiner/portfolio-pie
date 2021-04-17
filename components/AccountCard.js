@@ -9,7 +9,7 @@ export default function AccountCard({ cryptoData, stockData }) {
   
   // console.log(stockData?.stock['Global Quote']['08. previous close']);
   const VGRORate = stockData?.stock['Global Quote']['08. previous close'] || 0;
-  console.log("VGRO RATE:",VGRORate);
+  // console.log("VGRO RATE:",VGRORate);
 
   const totaler = (currencies) => {
     if (cryptoData == undefined || BTC == undefined) {
