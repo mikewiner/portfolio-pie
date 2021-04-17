@@ -2,29 +2,14 @@ import { useEffect, useState } from "react";
 import styles from "../styles/AccountCard.module.css";
 import { currencies } from "../const"
 
-// const currencies = {
-//   btc: {
-//     quantity: 0.11,
-//   },
-//   eth: {
-//     quantity: 0.45,
-//   },
-//   dot: {
-//     quantity: 7,
-//   },
-//   ada: {
-//     quantity: 100,
-//   },
-// };
-
-export default function AccountCard({ data }) {
-  const [cryptoData, setCryptoData] = useState(undefined);
-  useEffect(async () => {
-    let results = await fetch("/api/crypto");
-    let data = await results.json();
-    console.log(data);
-    setCryptoData(data);
-  }, []);
+export default function AccountCard({ data, cryptoData }) {
+  // const [cryptoData, setCryptoData] = useState(undefined);
+  // useEffect(async () => {
+  //   let results = await fetch("/api/crypto");
+  //   let data = await results.json();
+  //   console.log(data);
+  //   setCryptoData(data);
+  // }, []);
 
   const { btc, eth, ada, dot } = currencies;
   const { BTC, ETH, ADA, DOT } = cryptoData ? cryptoData.crypto.data : "";

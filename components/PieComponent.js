@@ -1,32 +1,53 @@
-import { useState } from 'react'; 
+import { useState, useEffect } from "react";
 import { PieChart } from "react-minimal-pie-chart";
 import styles from "../styles/PieComponent.module.css";
+import { currencies } from "../const";
 
-const lineWidth = 30;
-const dataMock = [
-  { title: "One", value: 10, color: "#E38627" },
-  { title: "Two", value: 15, color: "#C13C37" },
-  { title: "Three", value: 20, color: "#6A2135" },
-];
+const lineWidth = 20;
 
-export default function PieComponent() {
+export default function PieComponent({ cryptoData }) {
+  const { btc, eth, ada, dot } = currencies;
+  const { BTC, ETH, ADA, DOT } = cryptoData ? cryptoData.crypto.data : "";
+  const dataMock = [
+    {
+      title: "BTC",
+      value: BTC ? BTC.quote.CAD.price * btc.quantity : 1,
+      color: "red",
+    },
+    {
+      title: "ETH",
+      value: ETH ? ETH.quote.CAD.price * eth.quantity : 1,
+      color: "blue",
+    },
+    {
+      title: "DOT",
+      value: DOT ? DOT.quote.CAD.price * dot.quantity : 1,
+      color: "green",
+    },
+    {
+      title: "ADA",
+      value: ADA ? ADA.quote.CAD.price * ada.quantity : 1,
+      color: "orange",
+    },
+  ];
   const [selected, setSelected] = useState(0);
   const [hovered, setHovered] = useState(undefined);
-  
+
   const data = dataMock.map((entry, i) => {
     if (hovered === i) {
       return {
         ...entry,
-        color: 'plum',
+        color: "dodgerblue",
       };
     }
     return entry;
   });
 
+  if (!cryptoData) return <h2>Waiting for data</h2>;
+
   return (
     <>
       <div className={styles.pie}>
-
         <PieChart
           style={{
             fontFamily:
@@ -34,28 +55,30 @@ export default function PieComponent() {
             fontSize: "8px",
           }}
           data={data}
-          radius={PieChart.defaultProps.radius - 6}
-          lineWidth={30}
+          radius={PieChart.defaultProps.radius - 12}
+          lineWidth={18}
           segmentsStyle={{ transition: "stroke .3s", cursor: "pointer" }}
-          segmentsShift={(index) => (index === selected ? 6 : 1)}
+          // segmentsShift={(index) => (index === selected ? 6 : 1)}
           animate
-          label={({ dataEntry }) => Math.round(dataEntry.percentage) + "%"}
-          labelPosition={100 - lineWidth / 2}
+          label={({ dataEntry }) => dataEntry.title+" "+ Math.round(dataEntry.percentage) + "%"}
+          labelPosition={106}
           labelStyle={{
-            fill: "#fff",
-            fontSize: "5px",
+            fill: "black",
+            fontSize: "3px",
             opacity: 0.75,
             pointerEvents: "none",
           }}
-          onClick={(_, index) => {
-            setSelected(index === selected ? undefined : index);
-          }}
+          // onClick={(_, index) => {
+          //   setSelected(index === selected ? undefined : index);
+          // }}
           onMouseOver={(_, index) => {
             setHovered(index);
           }}
           onMouseOut={() => {
             setHovered(undefined);
           }}
+          paddingAngle={18}
+          rounded
         />
       </div>
     </>
