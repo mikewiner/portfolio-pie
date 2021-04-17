@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "../styles/AccountCard.module.css";
 import { currencies } from "../const"
 
-export default function AccountCard({ cryptoData, stockData }) {
+export default function AccountCard({ cryptoData, stockData, className }) {
 
   const { btc, eth, ada, dot, vgro, other } = currencies;
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {};
@@ -25,7 +25,7 @@ export default function AccountCard({ cryptoData, stockData }) {
 
   return (
     <>
-      <div className={styles.card}>
+      <div className={className}>
         <h3>Your Total Account Value:</h3>
         <p>
           BTC: {BTC && Number(BTC.quote.CAD.price * btc.quantity).toFixed(2)}

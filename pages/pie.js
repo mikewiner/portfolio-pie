@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Head from 'next/head'
-import AccountCard from '../components/AccountCard'
-import PieChart from '../components/PieComponent'
+import Head from "next/head";
+import AccountCard from "../components/AccountCard";
+import PieChart from "../components/PieComponent";
 import Pie2 from "../components/PieComponentRefactor";
-import styles from '../styles/Home.module.css'
+import styles from "../styles/Home.module.css";
 
 import { user, newPieData, currencies } from "../const";
 
@@ -15,9 +15,9 @@ export default function Pie() {
 
   const { btc, eth, ada, dot, vgro, other } = currencies;
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {};
-  
+
   // console.log(stockData?.stock['Global Quote']['08. previous close']);
-  const VGRORate = stockData?.stock['Global Quote']['08. previous close'] || 0;
+  const VGRORate = stockData?.stock["Global Quote"]["08. previous close"] || 0;
   // console.log("VGRO RATE:",VGRORate);
 
   const totaler = (currencies) => {
@@ -26,20 +26,20 @@ export default function Pie() {
     }
     return Number(
       BTC.quote.CAD.price * btc.quantity +
-      ETH.quote.CAD.price * eth.quantity +
-      ADA.quote.CAD.price * ada.quantity +
-      DOT.quote.CAD.price * dot.quantity
+        ETH.quote.CAD.price * eth.quantity +
+        ADA.quote.CAD.price * ada.quantity +
+        DOT.quote.CAD.price * dot.quantity
     );
   };
 
   const getApiData = async () => {
     let cryptoResults = await fetch("/api/crypto");
     let cryptoData = await cryptoResults.json();
-    let stockResults = await fetch("/api/alphavantage")
-    let stockData =  await stockResults.json();
+    let stockResults = await fetch("/api/alphavantage");
+    let stockData = await stockResults.json();
     setCryptoData(cryptoData);
     setStockData(stockData);
-  }
+  };
 
   useEffect(async () => {
     await getApiData();
@@ -53,11 +53,33 @@ export default function Pie() {
         <title>Portfolio Pie</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Hello {user.name}</h1>
-      <AccountCard cryptoData={cryptoData} stockData={stockData} />
-      <Pie2 type={`CRYPTO`} cryptoData={cryptoData} stockData={stockData} newPieData={newPieData} />
-      <Pie2 type={`FULL`} cryptoData={cryptoData} stockData={stockData} newPieData={newPieData} />
-      {/* <PieChart cryptoData={cryptoData} stockData={stockData} /> */}
+
+      <div className="flex flex-row min-h-screen p-8 bg-gray-100">
+        <div className="flex flex-col h-ful justify-around">
+          <h1 className="space-y-2 py-8 px-8 bg-white rounded-xl shadow-md text-xl">Portfolio Tracker</h1>
+          <div className="space-y-2 py-8 px-8 bg-white rounded-xl shadow-md">
+            <p className="text-lg text-gray-500">Welcome Back,</p>
+            <h2 className="text-xl font-bold">{user.name}</h2>
+          </div>
+          <AccountCard className="space-y-2 max-w-lg py-8 px-8 bg-white rounded-xl shadow-md" cryptoData={cryptoData} stockData={stockData} />
+        </div>
+
+        <div className="w-full flex flex-row justify-around ">
+          <Pie2
+            type={`CRYPTO`}
+            cryptoData={cryptoData}
+            stockData={stockData}
+            newPieData={newPieData}
+          />
+          <Pie2
+            type={`FULL`}
+            cryptoData={cryptoData}
+            stockData={stockData}
+            newPieData={newPieData}
+          />
+          {/* <PieChart cryptoData={cryptoData} stockData={stockData} /> */}
+        </div>
+      </div>
     </div>
-  )
+  );
 }
