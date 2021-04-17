@@ -5,10 +5,12 @@ import { currencies } from "../const"
 export default function AccountCard({ data, cryptoData }) {
 
   const { btc, eth, ada, dot } = currencies;
-  const { BTC, ETH, ADA, DOT } = cryptoData ? cryptoData.crypto.data : "";
+  const { BTC, ETH, ADA, DOT } = cryptoData.crypto.data || {};
+
+  console.log(BTC)
 
   const totaler = (currencies) => {
-    if (cryptoData == undefined) {
+    if (cryptoData == undefined || BTC == undefined) {
       return "calculating";
     }
     return Number(
