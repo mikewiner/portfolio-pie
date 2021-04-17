@@ -25,11 +25,10 @@
 .card p {
   margin: 0;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
 p.total {
-  padding-top: 1rem;
   font-weight: 700;
   font-size: 2.5rem;
   color: rgb(111, 19, 216);
