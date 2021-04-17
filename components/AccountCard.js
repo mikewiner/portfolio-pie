@@ -2,23 +2,25 @@ import { useEffect, useState } from "react";
 import styles from "../styles/AccountCard.module.css";
 import { currencies } from "../const"
 
-export default function AccountCard({ data, cryptoData }) {
+export default function AccountCard({ cryptoData, stockData }) {
 
-  const { btc, eth, ada, dot } = currencies;
-  const { BTC, ETH, ADA, DOT } = cryptoData.crypto.data || {};
-
-  console.log(BTC)
+  const { btc, eth, ada, dot, vgro, other } = currencies;
+  const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {};
+  
+  // console.log(stockData?.stock['Global Quote']['08. previous close']);
+  const VGRORate = stockData?.stock['Global Quote']['08. previous close'] || 0;
+  // console.log("VGRO RATE:",VGRORate);
 
   const totaler = (currencies) => {
     if (cryptoData == undefined || BTC == undefined) {
-      return "calculating";
+      return 0;
     }
     return Number(
       BTC.quote.CAD.price * btc.quantity +
       ETH.quote.CAD.price * eth.quantity +
       ADA.quote.CAD.price * ada.quantity +
       DOT.quote.CAD.price * dot.quantity
-    ).toFixed(2);
+    );
   };
 
   return (
@@ -26,18 +28,23 @@ export default function AccountCard({ data, cryptoData }) {
       <div className={styles.card}>
         <h3>Your Total Account Value:</h3>
         <p>
-          BTC:{BTC && Number(BTC.quote.CAD.price * btc.quantity).toFixed(2)}
+          BTC: {BTC && Number(BTC.quote.CAD.price * btc.quantity).toFixed(2)}
         </p>
         <p>
-          ETH:{ETH && Number(ETH.quote.CAD.price * eth.quantity).toFixed(2)}
+          ETH: {ETH && Number(ETH.quote.CAD.price * eth.quantity).toFixed(2)}
         </p>
         <p>
-          ADA:{ADA && Number(ADA.quote.CAD.price * ada.quantity).toFixed(2)}
+          ADA: {ADA && Number(ADA.quote.CAD.price * ada.quantity).toFixed(2)}
         </p>
         <p>
-          DOT:{DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
+          DOT: {DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
         </p>
-        <p className={styles.total}>TOTAL CAD: ${totaler(currencies)}</p>
+        <p>
+          VGRO: {VGRORate && Number(VGRORate * vgro.quantity).toFixed(2)}
+        </p>
+        <p className={styles.total}>Crypto Total: ${totaler(currencies).toFixed(2)}</p>
+        <p className={styles.total}>Stock Total: ${Number(VGRORate * vgro.quantity).toFixed(2)}</p>
+        <p className={styles.total}>Portfolio Total: ${(totaler(currencies)+ Number(VGRORate * vgro.quantity)).toFixed(2)}</p>
       </div>
     </>
   );
