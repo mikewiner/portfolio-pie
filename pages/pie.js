@@ -55,9 +55,9 @@ export default function Pie() {
       </Head>
       <h1>Hello {user.name}</h1>
       <AccountCard cryptoData={cryptoData} stockData={stockData} />
-      <Pie2 type={`CRYPTO`} cryptoData={cryptoData} stockData={stockData} pieData={newPieData} />
-      <Pie2 type={`FULL`} cryptoData={cryptoData} stockData={stockData} pieData={newPieData} />
-      <PieChart cryptoData={cryptoData} stockData={stockData} />
+      <Pie2 type={`CRYPTO`} cryptoData={cryptoData} stockData={stockData} newPieData={newPieData} />
+      <Pie2 type={`FULL`} cryptoData={cryptoData} stockData={stockData} newPieData={newPieData} />
+      {/* <PieChart cryptoData={cryptoData} stockData={stockData} /> */}
     </div>
   )
 }

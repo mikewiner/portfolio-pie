@@ -69,12 +69,17 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type }
       </>
     );
   }
+
   if(type == "CRYPTO"){
     
-    const dataCrypto = newPieData?.crypto
-    console.log("piepie",newPieData)
-    // console.log("PIE DATA:",pieData);
+    const dataCrypto = newPieData.crypto
     
+    //JESUS
+    dataCrypto.forEach(pieSlice => {
+      pieSlice.value = cryptoData.crypto.data[pieSlice.title].quote.CAD.price * currencies[pieSlice.title.toLowerCase()].quantity;
+    });
+    
+    console.log("piepie",dataCrypto)
     return (
       <>
         <div className={styles.pie}>
