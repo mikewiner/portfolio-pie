@@ -2,7 +2,8 @@
 
 
 const mockQueryParams = {
-  "symbol": ["btc", "eth", "dot", "ada"]
+  "symbol": ["btc", "eth", "dot", "ada"],
+  "convert": "cad"
 }
 
 const makeRequest = async (queryParams) => {
@@ -23,5 +24,5 @@ const makeRequest = async (queryParams) => {
 
 export default async (req, res) => {
   let cryptoRes = await makeRequest(mockQueryParams);
-  res.status(200).json({ name: cryptoRes });
+  res.status(200).json({ crypto: cryptoRes });
 };

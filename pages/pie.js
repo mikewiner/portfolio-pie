@@ -3,9 +3,8 @@ import AccountCard from '../components/AccountCard'
 import PieChart from '../components/PieComponent'
 import styles from '../styles/Home.module.css'
 
-const user = {
-  name: "Michael",
-}
+import { user } from "../const";
+
 
 export default function Pie() {
   return (

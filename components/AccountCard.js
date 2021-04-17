@@ -1,53 +1,64 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/AccountCard.module.css";
+import { currencies } from "../const"
 
-const currencies = {
-  btc: {
-    rate: 77957.10,
-    quantity:0.11,
-  },
-  eth: {
-    rate: 1,
-    quantity:1,
-  }
-} 
-
+// const currencies = {
+//   btc: {
+//     quantity: 0.11,
+//   },
+//   eth: {
+//     quantity: 0.45,
+//   },
+//   dot: {
+//     quantity: 7,
+//   },
+//   ada: {
+//     quantity: 100,
+//   },
+// };
 
 export default function AccountCard({ data }) {
-  // const reqOptions = {
-  //   method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  //   headers: {
-  //     'X-CMC_PRO_API_KEY': '7825afcf-8404-4c91-984c-3246667430e9'
-  //   },
-  // };
-  
-  // useEffect( async ()=> {
-  //   const res = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',reqOptions)
-  //   const data = await res.json();
-  //   console.log(data);
-  // },[])
+  const [cryptoData, setCryptoData] = useState(undefined);
+  useEffect(async () => {
+    let results = await fetch("/api/crypto");
+    let data = await results.json();
+    console.log(data);
+    setCryptoData(data);
+  }, []);
 
-  const { btc, eth } = currencies; 
+  const { btc, eth, ada, dot } = currencies;
+  const { BTC, ETH, ADA, DOT } = cryptoData ? cryptoData.crypto.data : "";
+
+  const totaler = (currencies) => {
+    if (cryptoData == undefined) {
+      return "calculating";
+    }
+    return Number(
+      BTC.quote.CAD.price * btc.quantity +
+      ETH.quote.CAD.price * eth.quantity +
+      ADA.quote.CAD.price * ada.quantity +
+      DOT.quote.CAD.price * dot.quantity
+    ).toFixed(2);
+  };
+
   return (
     <>
       <div className={styles.card}>
-        <h3>Your Account Value in Bitcoin:</h3>
-        <p>BTC:{btc.quantity}</p>
-        <p>CAD:{btc.rate * btc.quantity}</p>
+        <h3>Your Total Account Value:</h3>
+        <p>
+          BTC:{BTC && Number(BTC.quote.CAD.price * btc.quantity).toFixed(2)}
+        </p>
+        <p>
+          ETH:{ETH && Number(ETH.quote.CAD.price * eth.quantity).toFixed(2)}
+        </p>
+        <p>
+          ADA:{ADA && Number(ADA.quote.CAD.price * ada.quantity).toFixed(2)}
+        </p>
+        <p>
+          DOT:{DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
+        </p>
+        <p className={styles.total}>TOTAL CAD:{totaler(currencies)}</p>
       </div>
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const res = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest')
-//   const data = await res.json()
-
-//   // By returning { props: { posts } }, the Blog component
-//   // will receive `posts` as a prop at build time
-//   return {
-//     props: {
-//       data,
-//     },
-//   }
-// }

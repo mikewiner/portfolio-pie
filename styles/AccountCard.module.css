@@ -27,3 +27,8 @@
   font-size: 1.25rem;
   line-height: 1.5;
 }
+
+.total {
+  padding-top: 1rem;
+  font-weight: 700;
+}
