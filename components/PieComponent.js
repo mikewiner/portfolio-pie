@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PieChart } from "react-minimal-pie-chart";
 import styles from "../styles/PieComponent.module.css";
 
-const lineWidth = 60;
+const lineWidth = 30;
 const dataMock = [
   { title: "One", value: 10, color: "#E38627" },
   { title: "Two", value: 15, color: "#C13C37" },
@@ -13,18 +13,29 @@ export default function PieComponent() {
   const [selected, setSelected] = useState(0);
   const [hovered, setHovered] = useState(undefined);
   
+  const data = dataMock.map((entry, i) => {
+    if (hovered === i) {
+      return {
+        ...entry,
+        color: 'plum',
+      };
+    }
+    return entry;
+  });
+
   return (
     <>
       <div className={styles.pie}>
+
         <PieChart
           style={{
             fontFamily:
               '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
             fontSize: "8px",
           }}
-          data={dataMock}
+          data={data}
           radius={PieChart.defaultProps.radius - 6}
-          lineWidth={60}
+          lineWidth={30}
           segmentsStyle={{ transition: "stroke .3s", cursor: "pointer" }}
           segmentsShift={(index) => (index === selected ? 6 : 1)}
           animate
@@ -32,6 +43,7 @@ export default function PieComponent() {
           labelPosition={100 - lineWidth / 2}
           labelStyle={{
             fill: "#fff",
+            fontSize: "5px",
             opacity: 0.75,
             pointerEvents: "none",
           }}
