@@ -55,8 +55,8 @@ export default function Pie() {
       </Head>
 
       <div className="flex flex-row min-h-screen p-8 bg-gray-100">
-        <div className="flex flex-col h-ful justify-around">
-          <h1 className="space-y-2 py-8 px-8 bg-white rounded-xl shadow-md text-xl">Portfolio Tracker</h1>
+        <div className="flex flex-col w-96 justify-between">
+          <h1 className="space-y-2 py-8 px-8 bg-white rounded-xl shadow-md text-4xl font-bold text-purple-600">Portfolio Tracker</h1>
           <div className="space-y-2 py-8 px-8 bg-white rounded-xl shadow-md">
             <p className="text-lg text-gray-500">Welcome Back,</p>
             <h2 className="text-xl font-bold">{user.name}</h2>
@@ -64,7 +64,7 @@ export default function Pie() {
           <AccountCard className="space-y-2 max-w-lg py-8 px-8 bg-white rounded-xl shadow-md" cryptoData={cryptoData} stockData={stockData} />
         </div>
 
-        <div className="w-full flex flex-row justify-around ">
+        <div className="w-full flex flex-row justify-around bg-white shadow-md ml-8 rounded-xl">
           <Pie2
             type={`CRYPTO`}
             cryptoData={cryptoData}
