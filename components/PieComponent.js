@@ -7,7 +7,7 @@ const lineWidth = 20;
 
 export default function PieComponent({ cryptoData }) {
   const { btc, eth, ada, dot } = currencies;
-  const { BTC, ETH, ADA, DOT } = cryptoData.crypto.data || {};
+  const { BTC, ETH, ADA, DOT } = cryptoData?.crypto.data || {};
   const dataMock = [
     {
       title: "BTC",

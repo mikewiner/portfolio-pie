@@ -5,7 +5,7 @@ import { currencies } from "../const"
 export default function AccountCard({ data, cryptoData }) {
 
   const { btc, eth, ada, dot } = currencies;
-  const { BTC, ETH, ADA, DOT } = cryptoData.crypto.data || {};
+  const { BTC, ETH, ADA, DOT } = cryptoData?.crypto.data || {};
 
   console.log(BTC)
 
@@ -37,7 +37,7 @@ export default function AccountCard({ data, cryptoData }) {
         <p>
           DOT:{DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
         </p>
-        <p className={styles.total}>TOTAL CAD: ${totaler(currencies)}</p>
+        <p className={styles.total}>TOTAL: ${totaler(currencies)}</p>
       </div>
     </>
   );
