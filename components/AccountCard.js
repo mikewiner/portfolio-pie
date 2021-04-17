@@ -3,13 +3,6 @@ import styles from "../styles/AccountCard.module.css";
 import { currencies } from "../const"
 
 export default function AccountCard({ data, cryptoData }) {
-  // const [cryptoData, setCryptoData] = useState(undefined);
-  // useEffect(async () => {
-  //   let results = await fetch("/api/crypto");
-  //   let data = await results.json();
-  //   console.log(data);
-  //   setCryptoData(data);
-  // }, []);
 
   const { btc, eth, ada, dot } = currencies;
   const { BTC, ETH, ADA, DOT } = cryptoData ? cryptoData.crypto.data : "";
@@ -42,7 +35,7 @@ export default function AccountCard({ data, cryptoData }) {
         <p>
           DOT:{DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
         </p>
-        <p className={styles.total}>TOTAL CAD:{totaler(currencies)}</p>
+        <p className={styles.total}>TOTAL CAD: ${totaler(currencies)}</p>
       </div>
     </>
   );
