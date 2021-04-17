@@ -8,11 +8,21 @@ import { user } from "../const";
 
 export default function Pie() {
   const [cryptoData, setCryptoData] = useState(undefined);
+  const [stockData, setStockData] = useState(undefined);
+
+  const getApiData = async () => {
+    let cryptoResults = await fetch("/api/crypto");
+    let cryptoData = await cryptoResults.json();
+    let stockResults = await fetch("/api/alphavantage")
+    let stockData =  await stockResults.json();
+    setCryptoData(cryptoData);
+    setStockData(stockData);
+  }
+
   useEffect(async () => {
-    let results = await fetch("/api/crypto");
-    let data = await results.json();
-    console.log(data);
-    setCryptoData(data);
+    await getApiData();
+    // console.log("stock:",stockData);
+    // console.log("crypto:",cryptoData);
   }, []);
 
   return (
@@ -22,8 +32,8 @@ export default function Pie() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Hello {user.name}</h1>
-      <AccountCard cryptoData={cryptoData} />
-      <PieChart cryptoData={cryptoData} />
+      <AccountCard cryptoData={cryptoData} stockData={stockData} />
+      <PieChart cryptoData={cryptoData} stockData={stockData} />
     </div>
   )
 }

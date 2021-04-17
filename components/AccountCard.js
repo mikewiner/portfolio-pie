@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import styles from "../styles/AccountCard.module.css";
 import { currencies } from "../const"
 
-export default function AccountCard({ data, cryptoData }) {
+export default function AccountCard({ cryptoData, stockData }) {
 
   const { btc, eth, ada, dot } = currencies;
-  const { BTC, ETH, ADA, DOT } = cryptoData?.crypto.data || {};
-
-  console.log(BTC)
+  const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {};
+  
+  // console.log(stockData?.stock['Global Quote']['08. previous close']);
+  const VGRORate = stockData?.stock['Global Quote']['08. previous close'];
+  console.log("VGRO RATE:",VGRORate);
 
   const totaler = (currencies) => {
     if (cryptoData == undefined || BTC == undefined) {
@@ -36,6 +38,9 @@ export default function AccountCard({ data, cryptoData }) {
         </p>
         <p>
           DOT:{DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
+        </p>
+        <p>
+          VGRO:{DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}
         </p>
         <p className={styles.total}>TOTAL: ${totaler(currencies)}</p>
       </div>
