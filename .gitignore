@@ -33,5 +33,5 @@ yarn-error.log*
 # vercel
 .vercel
 
-# constants as they can be sensitive
-const.js
+# constants as they can be sensitive (commented out for until sign in able/inputable)
+#const.js

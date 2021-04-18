@@ -4,7 +4,7 @@ import styles from "../styles/PieComponent.module.css";
 import { currencies } from "../const";
 
 
-export default function PieComponent({ cryptoData, newPieData, stockData, type }) {
+export default function PieComponent({ cryptoData, newPieData, stockData, type, className }) {
   const { btc, eth, ada, dot, vgro } = currencies;
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {};
 
@@ -42,7 +42,7 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type }
     
     return (
       <>
-        <div className={styles.pie}>
+        <div className={className}>
           <PieChart
             style={{
               fontFamily:
@@ -82,7 +82,7 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type }
     console.log("piepie",dataCrypto)
     return (
       <>
-        <div className={styles.pie}>
+        <div className={className}>
           <PieChart
             style={{
               fontFamily:
