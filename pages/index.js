@@ -53,9 +53,9 @@ export default function Pie() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col lg:flex-row min-h-screen p-4 lg:p-8 bg-gray-100 gap-y-4">
-        <div className="flex flex-col w-full lg:w-96 justify-between gap-y-4">
-          <div className="space-y-1 py-8 px-8 bg-white rounded-xl shadow-md ">
+      <div className="flex flex-col lg:flex-row min-h-screen p-4 lg:p-8 bg-gray-100">
+        <div className="flex flex-col w-full lg:w-96 justify-between mb-4 lg:mb-0">
+          <div className="space-y-1 py-8 px-8 bg-white rounded-xl shadow-md mb-4 lg:mb-0">
             <h1 className="text-4xl text-purple-600 font-bold">Portfolio Tracker</h1>
             <p className="text-lg text-gray-500 pt-3">Welcome Back,</p>
             <h2 className="text-xl font-bold">{user.name}</h2>
