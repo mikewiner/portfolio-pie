@@ -14,6 +14,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### To do list
 
 - Creating inputable values for crypto/stock (removing const.js)
+- daily gains and losses
 - Menu functionality
 - Storing those values in state (local storage)
 - Sign in feature for added security (next-auth? jwt?)
