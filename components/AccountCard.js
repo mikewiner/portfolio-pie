@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import styles from '../styles/AccountCard.module.css'
 import { currencies } from '../const'
 
 export default function AccountCard({ cryptoData, stockData, className }) {
@@ -32,8 +31,8 @@ export default function AccountCard({ cryptoData, stockData, className }) {
         <p>DOT: ${DOT && Number(DOT.quote.CAD.price * dot.quantity).toFixed(2)}</p>
         <p>VGRO: ${VGRORate && Number(VGRORate * vgro.quantity).toFixed(2)}</p>
         <div className="bg-purple-100 py-2 px-3 rounded-xl text-purple-800 text-opacity-90">
-          <p className={styles.total}>Crypto Total: ${totaler(currencies).toFixed(2)}</p>
-          <p className={styles.total}>
+          <p className="">Crypto Total: ${totaler(currencies).toFixed(2)}</p>
+          <p className="">
             Stock Total: ${Number(VGRORate * vgro.quantity).toFixed(2)}
           </p>
           <p className="font-bold text-md">
