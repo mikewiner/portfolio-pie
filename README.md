@@ -13,9 +13,10 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 ### To do list
 
-1. Creating inputable values for crypto/stock (removing const.js)
-2. Storing those values in state (local storage)
-3. Sign in feature for added security (next-auth? jwt?)
-4. Make PWA
-5. Dark Mode
-6. Multi-language
+- Creating inputable values for crypto/stock (removing const.js)
+- Menu functionality
+- Storing those values in state (local storage)
+- Sign in feature for added security (next-auth? jwt?)
+- Make PWA
+- Dark Mode
+- Multi-language
