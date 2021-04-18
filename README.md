@@ -20,3 +20,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Make PWA
 - Dark Mode
 - Multi-language
+- Github Actions (CI/CD)
+- Server side rendering for account page
+- testing (cypress and jest)
+- favicon 
