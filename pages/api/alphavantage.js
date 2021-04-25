@@ -11,7 +11,7 @@ const makeRequest = async (queryParams) => {
     `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=VGRO.TRT&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
   );
   let data = await result.json();
-  console.log(data);
+  // console.log(data);
   return data;
 };
 

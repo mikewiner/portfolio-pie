@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-
 const mockQueryParams = {
   "symbol": ["btc", "eth", "dot", "ada"],
   "convert": "cad"
@@ -20,6 +19,7 @@ const makeRequest = async (queryParams) => {
     reqOptions
   )
   let data  = await result.json();
+  // console.log(data.quote)
   return data;
 };
 
