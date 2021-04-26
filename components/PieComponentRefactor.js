@@ -8,7 +8,7 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type, 
   const { btc, eth, ada, dot, vgro } = currencies;
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {};
 
-  const VGRORate = stockData?.stock['Global Quote']['08. previous close'] || 0;
+  const VGRORate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0;
 
   const totaler = (currencies) => {
     if (cryptoData == undefined || BTC == undefined) {
