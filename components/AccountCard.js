@@ -10,18 +10,18 @@ export default function AccountCard({ cryptoData, stockData, className }) {
   console.log(BTC)
 
   // console.log(stockData?.stock['Global Quote']['08. previous close']);
-  const VGRORate = stockData?.stock['Global Quote']['08. previous close'] || 0
-  const VGROgain = stockData?.stock['Global Quote']['09. change'] * currencies.vgro.quantity || 0
+  const VGRORate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0
+  const VGROgain = stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
 
   const gainCalculator = (crypto) => {
     if (cryptoData == undefined) {
       return 0
     }
 
-    const { data } = cryptoData?.crypto || {}
+    const { data } = cryptoData?.crypto || {};
 
     const yesterdaysPrice =
-      data[crypto].quote.CAD.price * ((100 - data[crypto].quote.CAD.percent_change_24h) / 100)
+      (data[crypto].quote.CAD.price * 100) / (data[crypto].quote.CAD.percent_change_24h + 100)
     const todaysGain =
       currencies[crypto.toLowerCase()].quantity * (data[crypto].quote.CAD.price - yesterdaysPrice)
 

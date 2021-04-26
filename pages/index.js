@@ -11,13 +11,16 @@ export default function Pie() {
   const [stockData, setStockData] = useState(undefined)
   const [cryptoTotal, setCryptoTotal] = useState(0)
   const [stockTotal, setStockTotal] = useState(0)
+  const [todaysTotalGain, setTodaysTotalGain] = useState(0)
 
   const { btc, eth, ada, dot, vgro, other } = currencies
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {}
 
   // console.log(stockData?.stock['Global Quote']['08. previous close']);
-  const VGRORate = stockData?.stock['Global Quote']['08. previous close'] || 0;
-  // console.log("VGRO RATE:",VGRORate);
+  const vgroRate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0
+  const vgroGain = stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
+
+  // console.log("VGRO RATE:",vgroRate);
 
   const totaler = (currencies) => {
     if (cryptoData == undefined || BTC == undefined) {
@@ -31,6 +34,25 @@ export default function Pie() {
     )
   }
 
+  const totalGainCalculator = (cryptos) => {
+    if (cryptoData == undefined) {
+      return 0
+    }
+
+    const { data } = cryptoData?.crypto || {}
+    let total = 0
+
+    cryptos.forEach((crypto) => {
+      const yesterdaysPrice =
+        (data[crypto].quote.CAD.price * 100) / (data[crypto].quote.CAD.percent_change_24h + 100)
+      const todaysGain =
+        currencies[crypto.toLowerCase()].quantity * (data[crypto].quote.CAD.price - yesterdaysPrice)
+      total = total + todaysGain
+    })
+
+    return total + vgroGain
+  }
+
   const getApiData = async () => {
     let cryptoResults = await fetch('/api/crypto')
     let cryptoData = await cryptoResults.json()
@@ -38,10 +60,12 @@ export default function Pie() {
     let stockData = await stockResults.json()
     setCryptoData(cryptoData)
     setStockData(stockData)
+    setTodaysTotalGain(totalGainCalculator(['BTC', 'ETH', 'ADA', 'DOT']))
   }
 
   useEffect(async () => {
     await getApiData()
+    
     // console.log("stock:",stockData);
     // console.log("crypto:",cryptoData);
   }, [])
@@ -69,10 +93,17 @@ export default function Pie() {
         </div>
 
         <div className="relative w-full flex flex-col lg:flex-row justify-around bg-white shadow-md lg:ml-8 rounded-xl ">
-          <p className="text-3xl text-center font-bold p-5 lg:text-6xl lg:absolute lg:p-10 lg:left-0 lg:top-0 ">
-            ${(totaler(currencies) + Number(VGRORate * vgro.quantity)).toFixed(2)}
+          <p className="text-3xl text-center font-bold p-5 lg:text-4xl lg:absolute lg:p-10 lg:left-0 lg:top-0 ">
+            ${(totaler(currencies) + Number(vgroRate * vgro.quantity)).toFixed(2)}{' '}
+            <span
+              className={`${
+                todaysTotalGain >= 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+              } px-2 py-1 rounded-xl`}
+            >
+              {todaysTotalGain >= 0 ? `+${todaysTotalGain.toFixed(2)}` : todaysTotalGain.toFixed(2)}
+            </span>
           </p>
-          <Pie2 
+          <Pie2
             className="w-full lg:w-1/2"
             type={`CRYPTO`}
             cryptoData={cryptoData}
