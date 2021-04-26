@@ -7,7 +7,7 @@ export default function AccountCard({ cryptoData, stockData, className }) {
   const { btc, eth, ada, dot, vgro, other } = currencies
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {}
 
-  console.log(BTC)
+  // console.log(BTC)
 
   // console.log(stockData?.stock['Global Quote']['08. previous close']);
   const VGRORate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0

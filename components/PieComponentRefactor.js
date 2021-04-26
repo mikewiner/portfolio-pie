@@ -84,7 +84,7 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type, 
         currencies[pieSlice.title.toLowerCase()].quantity
     })
 
-    console.log('piepie', dataCrypto)
+    // console.log('piepie', dataCrypto)
     return (
       <>
         <div className={className}>
