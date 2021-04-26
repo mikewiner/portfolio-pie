@@ -18,7 +18,8 @@ export default function Pie() {
 
   // console.log(stockData?.stock['Global Quote']['08. previous close']);
   const vgroRate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0
-  const vgroGain = stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
+  const vgroGain =
+    stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
 
   // console.log("VGRO RATE:",vgroRate);
 
@@ -60,15 +61,15 @@ export default function Pie() {
     let stockData = await stockResults.json()
     setCryptoData(cryptoData)
     setStockData(stockData)
-    setTodaysTotalGain(totalGainCalculator(['BTC', 'ETH', 'ADA', 'DOT']))
   }
 
   useEffect(async () => {
     await getApiData()
-    
-    // console.log("stock:",stockData);
-    // console.log("crypto:",cryptoData);
   }, [])
+
+  useEffect(() => {
+    setTodaysTotalGain(totalGainCalculator(['BTC', 'ETH', 'ADA', 'DOT']))
+  }, [cryptoData, vgroGain])
 
   return (
     <div className="">
