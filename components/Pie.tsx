@@ -7,7 +7,6 @@ interface stockDataType {
     data: unknown;
   }
 }
-
 interface PieProps {
   cryptoData: any
   newPieData: any

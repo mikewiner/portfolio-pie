@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react'
-import { currencies } from '../const'
+import { currencies, currencyType, currenciesArray, currencyObject } from '../const'
 
-export default function AccountCard({ cryptoData, stockData, className }) {
-  // const [gainz, setGainz] = useState([]);
+interface AccountCardProps {
+  cryptoData: any
+  stockData: any
+  className: string | null
+}
 
+const AccountCard: React.FC<AccountCardProps> = ({ cryptoData, stockData, className }) => {
   const { btc, eth, ada, dot, vgro, other } = currencies
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {}
+  const cryptoRes = cryptoData?.crypto?.data || {}
 
-  // console.log(BTC)
-
-  // console.log(stockData?.stock['Global Quote']['08. previous close']);
   const VGRORate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0
-  const VGROgain = stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
+  const VGROgain =
+    stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
 
   const gainCalculator = (crypto) => {
     if (cryptoData == undefined) {
       return 0
     }
 
-    const { data } = cryptoData?.crypto || {};
+    const { data } = cryptoData?.crypto || {}
 
     const yesterdaysPrice =
       (data[crypto].quote.CAD.price * 100) / (data[crypto].quote.CAD.percent_change_24h + 100)
@@ -28,16 +31,23 @@ export default function AccountCard({ cryptoData, stockData, className }) {
     return Number(todaysGain.toFixed(2))
   }
 
-  const totaler = (currencies) => {
+  const totaler = (currencies: currencyObject[]): number => {
     if (cryptoData == undefined || BTC == undefined) {
       return 0
     }
-    return Number(
-      BTC.quote.CAD.price * btc.quantity +
-        ETH.quote.CAD.price * eth.quantity +
-        ADA.quote.CAD.price * ada.quantity +
-        DOT.quote.CAD.price * dot.quantity
-    )
+
+    let total: number = 0
+
+    currencies.forEach((currency) => {
+      let Id = currency.name.toUpperCase()
+      let quantity = currency.quantity
+
+      //Need to handle stocks with the totaler, maybe change name to crpyto totaler?
+      if (Id == 'VGRO') return
+
+      total += cryptoRes[Id].quote.CAD.price * quantity
+    })
+    return total
   }
 
   const btcGain = gainCalculator('BTC')
@@ -103,7 +113,7 @@ export default function AccountCard({ cryptoData, stockData, className }) {
         </p>
         <div className="bg-purple-100 py-2 px-3 rounded-xl text-purple-800 text-opacity-90">
           <p className="py-2">
-            Crypto Total: ${totaler(currencies).toFixed(2)}
+            Crypto Total: ${totaler(currenciesArray).toFixed(2)}
             <span
               className={`${
                 cryptoGain >= 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
@@ -123,7 +133,8 @@ export default function AccountCard({ cryptoData, stockData, className }) {
             </span>
           </p>
           <p className="font-bold text-md py-2">
-            Portfolio Total: ${(totaler(currencies) + Number(VGRORate * vgro.quantity)).toFixed(2)}{' '}
+            Portfolio Total: $
+            {(totaler(currenciesArray) + Number(VGRORate * vgro.quantity)).toFixed(2)}{' '}
             <span
               className={`${
                 totalGain >= 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
@@ -137,3 +148,5 @@ export default function AccountCard({ cryptoData, stockData, className }) {
     </>
   )
 }
+
+export default AccountCard
