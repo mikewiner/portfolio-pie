@@ -1,29 +1,23 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import AccountCard from '../components/AccountCard'
-import PieChart from '../components/PieComponent'
-import Pie2 from '../components/PieComponentRefactor'
+import Pie from '../components/Pie'
 
 import { user, newPieData, currencies } from '../const'
 
-export default function Pie() {
+const Index: React.FC = () => {
   const [cryptoData, setCryptoData] = useState(undefined)
   const [stockData, setStockData] = useState(undefined)
-  const [cryptoTotal, setCryptoTotal] = useState(0)
-  const [stockTotal, setStockTotal] = useState(0)
   const [todaysTotalGain, setTodaysTotalGain] = useState(0)
 
   const { btc, eth, ada, dot, vgro, other } = currencies
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {}
 
-  // console.log(stockData?.stock['Global Quote']['08. previous close']);
   const vgroRate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0
   const vgroGain =
     stockData?.stock?.['Global Quote']?.['09. change'] * currencies.vgro.quantity || 0
 
-  // console.log("VGRO RATE:",vgroRate);
-
-  const totaler = (currencies) => {
+  const totaler = (): number => {
     if (cryptoData == undefined || BTC == undefined) {
       return 0
     }
@@ -35,7 +29,7 @@ export default function Pie() {
     )
   }
 
-  const totalGainCalculator = (cryptos) => {
+  const totalGainCalculator = (cryptos): number => {
     if (cryptoData == undefined) {
       return 0
     }
@@ -54,17 +48,16 @@ export default function Pie() {
     return total + vgroGain
   }
 
-  const getApiData = async () => {
-    let cryptoResults = await fetch('/api/crypto')
-    let cryptoData = await cryptoResults.json()
-    let stockResults = await fetch('/api/alphavantage')
-    let stockData = await stockResults.json()
-    setCryptoData(cryptoData)
-    setStockData(stockData)
-  }
-
-  useEffect(async () => {
-    await getApiData()
+  useEffect(() => {
+    const getApiData = async () => {
+      let cryptoResults = await fetch('/api/crypto')
+      let cryptoData = await cryptoResults.json()
+      let stockResults = await fetch('/api/alphavantage')
+      let stockData = await stockResults.json()
+      setCryptoData(cryptoData)
+      setStockData(stockData)
+    }
+    getApiData()
   }, [])
 
   useEffect(() => {
@@ -95,7 +88,7 @@ export default function Pie() {
 
         <div className="relative w-full flex flex-col lg:flex-row justify-around bg-white shadow-md lg:ml-8 rounded-xl ">
           <p className="text-3xl text-center font-bold p-5 lg:text-4xl lg:absolute lg:p-10 lg:left-0 lg:top-0 ">
-            ${(totaler(currencies) + Number(vgroRate * vgro.quantity)).toFixed(2)}{' '}
+            ${(totaler() + Number(vgroRate * vgro.quantity)).toFixed(2)}{' '}
             <span
               className={`${
                 todaysTotalGain >= 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
@@ -104,14 +97,14 @@ export default function Pie() {
               {todaysTotalGain >= 0 ? `+${todaysTotalGain.toFixed(2)}` : todaysTotalGain.toFixed(2)}
             </span>
           </p>
-          <Pie2
+          <Pie
             className="w-full lg:w-1/2"
             type={`CRYPTO`}
             cryptoData={cryptoData}
             stockData={stockData}
             newPieData={newPieData}
           />
-          <Pie2
+          <Pie
             className="w-full lg:w-1/2"
             type={`FULL`}
             cryptoData={cryptoData}
@@ -124,3 +117,5 @@ export default function Pie() {
     </div>
   )
 }
+
+export default Index

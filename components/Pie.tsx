@@ -1,19 +1,32 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PieChart } from 'react-minimal-pie-chart'
-import styles from '../styles/PieComponent.module.css'
 import { currencies } from '../const'
 
-export default function PieComponent({ cryptoData, newPieData, stockData, type, className }) {
+interface stockDataType {
+  stock: {
+    data: unknown;
+  }
+}
+
+interface PieProps {
+  cryptoData: any
+  newPieData: any
+  stockData: stockDataType
+  type: string
+  className: string
+}
+
+const PieGraph: React.FC<PieProps> = ({ cryptoData, newPieData, stockData, type, className }) => {
   const { btc, eth, ada, dot, vgro } = currencies
   const { BTC, ETH, ADA, DOT } = cryptoData?.crypto?.data || {}
 
   const VGRORate = stockData?.stock?.['Global Quote']?.['08. previous close'] || 0
 
-  const totaler = (currencies) => {
+  const totaler = (): number => {
     if (cryptoData == undefined || BTC == undefined) {
       return 0
     }
-    return Number(
+    return (
       BTC.quote.CAD.price * btc.quantity +
         ETH.quote.CAD.price * eth.quantity +
         ADA.quote.CAD.price * ada.quantity +
@@ -32,7 +45,7 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type, 
     const dataFull = [
       {
         title: 'Crypto',
-        value: totaler(currencies) || 1,
+        value: totaler() || 1,
         color: 'green',
       },
       {
@@ -41,7 +54,6 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type, 
         color: 'slategray',
       },
     ]
-    // console.log("PIE DATA:",pieData);
 
     return (
       <>
@@ -84,7 +96,6 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type, 
         currencies[pieSlice.title.toLowerCase()].quantity
     })
 
-    // console.log('piepie', dataCrypto)
     return (
       <>
         <div className={className}>
@@ -116,3 +127,5 @@ export default function PieComponent({ cryptoData, newPieData, stockData, type, 
     )
   }
 }
+
+export default PieGraph;
