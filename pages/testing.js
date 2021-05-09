@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import AccountCard from '../components/AccountCard'
 import PieChart from '../components/PieComponent'
-import { Pie } from '../components/PieComponentRefactor'
+import Pie from '../components/Pie'
 
 import { user, newPieData, currencies } from '../const'
 
