@@ -19,12 +19,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Menu functionality
 - Storing those values in state (local storage)
 - Sign in feature for added security (next-auth? jwt?)
-- Make PWA
+- Make PWA (halfway done, manifest not square thing)
 - Dark Mode
 - Multi-language
 - Github Actions (CI/CD)
 - Server side rendering for account page
 - testing (cypress and jest)
 - favicon
-- typescript
-- swr api fetching 
+- ~~typescript~~
+- swr api fetching
