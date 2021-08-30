@@ -18,7 +18,7 @@ export const currencies: currencyType = {
     quantity: 93.5173,
   },
   vgro: {
-    quantity: 1359,
+    quantity: 1674,
   },
   other: {
     quantity: 0,
